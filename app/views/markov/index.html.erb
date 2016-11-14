@@ -1,0 +1,7 @@
+<%= content_for :content do %>
+  <%= form_tag '/markov/fetch_twitter_chain' do %>
+    <%= label_tag 'Twitter Username' %>
+    <%= text_field_tag 'twitter_username' %>
+    <%= submit_tag 'Submit' %>
+  <% end %>
+<% end %>
