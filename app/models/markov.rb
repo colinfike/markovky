@@ -15,12 +15,14 @@ class Markov < ApplicationRecord
       posts = []
       parsed_response.each do |tweet|
        break if tweet['id'] < max_id
+       break if !tweet["retweeted_status"].nil?
        last_id = tweet['id'] - 1
        posts << tweet['text']
       end
       logger.info posts
       posts.each do |post|
-        temporary_markov_hash = self.process_post(temporary_markov_hash, post)
+          temporary_markov_hash = self.process_post(temporary_markov_hash, post)
+        end
       end
       post_count = post_count + posts.count
       logger.info "#{post_count} tweets processed."
@@ -57,7 +59,7 @@ end
 def self.process_post temporary_markov_hash, post
   past_word = '['
   current_word = '['
-  post.split('.!?').each_with_index do |sentence, index|
+  post.split('.!?').select{|x| (x[0] != '@') && (!x.include?('http'))}.each_with_index do |sentence, index|
     # Converts html entity names back to their actual ASCII values, removes returns and all non-alphanumeric values (and spaces)
     word_array = CGI::unescapeHTML(sentence).gsub(/\n/, "").gsub(/[^A-Za-z@# ]/, '').split(' ')
     word_count = word_array.count
