@@ -14,15 +14,16 @@ class Markov < ApplicationRecord
       parsed_response = JSON.parse(response)
       posts = []
       parsed_response.each do |tweet|
-       break if tweet['id'] < max_id
-       break if !tweet["retweeted_status"].nil?
-       last_id = tweet['id'] - 1
-       posts << tweet['text']
+        logger.info "Retweet: #{tweet['retweeted_status']}"
+        logger.info "Message: #{tweet['text']}"
+        break if tweet['id'] < max_id
+        next if !tweet["retweeted_status"].nil?
+        last_id = tweet['id'] - 1
+        posts << tweet['text']
       end
       logger.info posts
       posts.each do |post|
-          temporary_markov_hash = self.process_post(temporary_markov_hash, post)
-        end
+        temporary_markov_hash = self.process_post(temporary_markov_hash, post)
       end
       post_count = post_count + posts.count
       logger.info "#{post_count} tweets processed."
