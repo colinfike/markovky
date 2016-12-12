@@ -14,6 +14,7 @@ class Markov < ApplicationRecord
       parsed_response = JSON.parse(response)
       posts = []
       parsed_response.each do |tweet|
+        logger.info "Tweet: #{tweet}"
         logger.info "Retweet: #{tweet['retweeted_status']}"
         logger.info "Message: #{tweet['text']}"
         break if tweet['id'] < max_id
@@ -60,9 +61,11 @@ end
 def self.process_post temporary_markov_hash, post
   past_word = '['
   current_word = '['
-  post.split('.!?').select{|x| (x[0] != '@') && (!x.include?('http'))}.each_with_index do |sentence, index|
+  post.split('.!?').each_with_index do |sentence, index|
+    logger.info "SentenceXYZ: #{sentence}"
     # Converts html entity names back to their actual ASCII values, removes returns and all non-alphanumeric values (and spaces)
-    word_array = CGI::unescapeHTML(sentence).gsub(/\n/, "").gsub(/[^A-Za-z@# ]/, '').split(' ')
+    word_array = CGI::unescapeHTML(sentence).gsub(/\n|[^A-Za-z@# ]|@\w+/,'').split(' ')
+    # word_array = CGI::unescapeHTML(sentence).gsub(/\n/, "").gsub(/[^A-Za-z@# ]/, '').gsub(/@\w+/).split(' ')
     word_count = word_array.count
     logger.info word_array
 
