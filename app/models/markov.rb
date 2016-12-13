@@ -83,6 +83,7 @@ def self.process_post temporary_markov_hash, post
   end
   return temporary_markov_hash
 end
+# test
 #
 def self.generate_sentence(user)
   chosen_word = "["
@@ -94,6 +95,7 @@ def self.generate_sentence(user)
     sentence << chosen_word + " " if chosen_word != "]"
   end
   puts sentence.downcase.capitalize.chomp(' ') + "."
+  return sentence.downcase.capitalize.chomp(' ') + "."
 end
 # end
 end

@@ -1,7 +1,13 @@
 <%= content_for :content do %>
-  <%= form_tag '/markov/fetch_twitter_chain' do %>
-    <%= label_tag 'Twitter Username' %>
-    <%= text_field_tag 'twitter_username' %>
-    <%= submit_tag 'Submit' %>
+  <%= form_for @user, :url => '/markov/fetch_twitter_chain' do |f| %>
+    <%#= render "shared/errors", object: @user %>
+    <%= f.label :twitter_username %>
+    <%= f.text_field :twitter_username, class: "form-control" %>
+    <%= f.submit %>
   <% end %>
+  <%#= form_tag '/markov/fetch_twitter_chain' do %>
+    <%#= label_tag 'Twitter Username' %>
+    <%#= text_field_tag 'twitter_username' %>
+    <%#= submit_tag 'Submit' %>
+  <%# end %>
 <% end %>
