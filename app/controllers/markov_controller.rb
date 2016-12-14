@@ -4,10 +4,17 @@ class MarkovController < ApplicationController
   end
 
   def fetch_twitter_chain
-    user = User.find_or_create_by(markov_params)
-    Markov.create_twitter_markov_chain(user)
-    @sentence = Markov.generate_sentence(user)
-    logger.info "Sentence: #{@sentence}"
+    if !params[:twitter_username].blank?
+      user = User.find_or_create_by(twitter_username: params[:twitter_username])
+      Markov.create_twitter_markov_chain(user)
+      sentence = Markov.generate_sentence(user)
+    else
+      error = "Username Missing"
+    end
+    respond_to do |format|
+      format.html
+      format.json { render json: {:sentence => sentence, :error => error} }
+    end
   end
 
   private

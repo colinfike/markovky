@@ -6,6 +6,6 @@ Rails.application.routes.draw do
       post 'fetch_twitter_chain'
     end
   end
-  
-  root 'markov#index'
+
+  root 'home#index'
 end
