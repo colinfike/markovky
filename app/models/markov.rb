@@ -1,7 +1,6 @@
 class Markov < ApplicationRecord
 
   def self.create_twitter_markov_chain(user)
-    logger.info "Did it work?: #{ENV["TEST_COLIN"]}"
     return if user.markov_chain != {}
     max_id = user.latest_tweet_seen.to_i
     last_id = nil
@@ -9,7 +8,7 @@ class Markov < ApplicationRecord
     post_count = 0
 
     begin
-      response = RestClient.get("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=#{user.twitter_username}#{("&max_id=" + last_id.to_s) if last_id}", {"Authorization" => "Bearer #{ENV["TWITTER_BEARER_TOKEN"]}" })
+      response = RestClient.get("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=#{user.twitter_username}#{("&max_id=" + last_id.to_s) if last_id}", {"Authorization" => "Bearer #{TWITTER_BEARER_TOKEN}" })
       parsed_response = JSON.parse(response)
       posts = []
       parsed_response.each do |tweet|
