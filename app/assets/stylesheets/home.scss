@@ -6,3 +6,76 @@
 .sentence-container {
   display: none;
 }
+
+.header {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.credits {
+  text-decoration: none;
+  font-size: 10px;
+  color: #C6C5B9;
+}
+
+.credits:hover {
+  color: #9e9d92;
+}
+
+.credits:active {
+  color: #858479;
+}
+
+body {
+  font-family: 'Source Serif Pro', serif;
+}
+
+body .markovky-logo {
+  font-size: 60px;
+  color: #629460;
+  font-family: 'Audiowide', cursive;
+}
+
+.twitter-form {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 500px;
+  margin: auto;
+}
+
+@media (max-width: 600px) {
+  .twitter-form {
+    width: 90%;
+  }
+}
+
+.twitter-form input:first-child {
+  margin-top: 5px;
+  margin-bottom: 2px;
+}
+.twitter-form input {
+  text-align: center;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 16px;
+}
+
+.sentence-container,
+.error-container {
+  text-align: center;
+  width: 90%;
+  margin: auto;
+  margin-top: 30px;
+  font-size: 24px;
+}
+.error-container {
+  color: #BB0A21;
+}

@@ -1,14 +1,13 @@
 <%= content_for :content do %>
-  <%= label_tag 'Twitter Username' %>
-  <%= text_field_tag 'twitter_username' %>
-  <%= submit_tag 'Generate', :class => 'twitter_submit' %>
+  <div class='twitter-form'>
+    <%= text_field_tag 'twitter_username', '', placeholder: 'Enter Twitter Username', class: 'form-control' %>
+    <%= submit_tag 'Generate', :class => 'twitter_submit form-control' %>
+  </div>
 
   <div class='sentence-container'>
-    <h1>Sentence</h1>
     <span></span>
   </div>
   <div class='error-container'>
-    <h1>Error</h1>
     <span></span>
   </div>
 <% end %>

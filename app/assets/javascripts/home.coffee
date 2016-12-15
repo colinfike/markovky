@@ -7,11 +7,11 @@ $ ->
     $.post '/markov/fetch_twitter_chain.json', payload, (data) ->
       if data.error
         $('.error-container span').text data.error
-        $('.error-container').show 100
-        $('.sentence-container').hide 100
+        $('.error-container').show 0
+        $('.sentence-container').hide 0
       else
         $('.sentence-container span').text data.sentence
-        $('.sentence-container').show 100
-        $('.error-container').hide 100
+        $('.sentence-container').show 0
+        $('.error-container').hide 0
       return
     return
