@@ -1,7 +1,7 @@
 class Markov < ApplicationRecord
 
   def self.create_twitter_markov_chain(user)
-    # logger.info "Did it work?: #{ENV["TEST_COLIN"]}"
+    logger.info "Did it work?: #{ENV["TEST_COLIN"]}"
     return if user.markov_chain != {}
     max_id = user.latest_tweet_seen.to_i
     last_id = nil
