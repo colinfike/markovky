@@ -8,7 +8,7 @@ set :application, 'markovky'
 set :repo_url, 'git@github.com:colinfike/markovky.git'
 set :branch, 'master'
 
-set :deploy_to, "/var/www/sites-available/ColinsSite"
+set :deploy_to, "/var/www/sites-available/markovky"
 set :user, "ubuntu"
 
 # Default branch is :master
