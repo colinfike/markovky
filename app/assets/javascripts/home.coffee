@@ -10,7 +10,7 @@ $ ->
     b = baffle('.sentence-container')
     be = baffle('.error-container')
     b.text(->
-      'Generating...'
+      'Generating... (May take a minute or two)'
     ).reveal 3000
     $('.sentence-container').show 0
 
