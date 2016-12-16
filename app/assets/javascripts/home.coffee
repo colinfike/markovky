@@ -4,14 +4,29 @@
 $ ->
   $('.twitter_submit').click ->
     payload = twitter_username: $('#twitter_username').val()
+    $('.sentence-container').hide 0
+    $('.error-container').hide 0
+    # Instantiate baffle
+    b = baffle('.sentence-container')
+    be = baffle('.error-container')
+    b.text(->
+      'Generating...'
+    ).reveal 3000
+    $('.sentence-container').show 0
+
     $.post '/markov/fetch_twitter_chain.json', payload, (data) ->
+      b.stop()
       if data.error
-        $('.error-container span').text data.error
-        $('.error-container').show 0
         $('.sentence-container').hide 0
+        be.text(->
+          data.error
+        ).reveal 250
+        $('.error-container').show 0
       else
-        $('.sentence-container span').text data.sentence
-        $('.sentence-container').show 0
         $('.error-container').hide 0
+        b.text(->
+          data.sentence
+        ).reveal 250
+        $('.sentence-container').show 0
       return
     return
