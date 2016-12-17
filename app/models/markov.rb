@@ -33,7 +33,6 @@ def self.process_post temporary_markov_hash, post
   current_word = '['
   # Remove links then tear everything apart at terminal points
   post.gsub(/http\S+/, '').split('.!?').each_with_index do |sentence, index|
-    logger.info "SentenceXYZ: #{sentence}"
     # Converts html entity names back to their actual ASCII values, removes returns and all non-alphanumeric values (and spaces)
     word_array = CGI::unescapeHTML(sentence).gsub(/\n|[^A-Za-z@# ]|@\w+/,'').split(' ')
     # word_array = CGI::unescapeHTML(sentence).gsub(/\n/, "").gsub(/[^A-Za-z@# ]/, '').gsub(/@\w+/).split(' ')
