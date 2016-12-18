@@ -34,7 +34,6 @@ class Markov < ApplicationRecord
     post.gsub(/http\S+/, '').split('.!?').each_with_index do |sentence, index|
       # Converts html entity names back to their actual ASCII values, removes returns and all non-alphanumeric values (and spaces)
       word_array = CGI::unescapeHTML(sentence).gsub(/\n|[^A-Za-z@# ]|@\w+/,'').split(' ')
-      # word_array = CGI::unescapeHTML(sentence).gsub(/\n/, "").gsub(/[^A-Za-z@# ]/, '').gsub(/@\w+/).split(' ')
       word_count = word_array.count
 
       word_array.each_with_index do |word, current_word_index|
