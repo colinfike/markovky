@@ -15,12 +15,12 @@ class MarkovTest < ActiveSupport::TestCase
   test "post processing" do
     temp_markov = {}
     temp_markov = Markov.process_post(temp_markov, "@colinfike Hey!! \n funny stuff http://tester.com/whop")
-    assert temp_markov == {"["=>{"Hey"=>1}, "Hey"=>{"funny"=>1}, "funny"=>{"stuff"=>1}, "stuff"=>{"]"=>1}}
+    assert_equal temp_markov, {"["=>{"Hey"=>1}, "Hey"=>{"funny"=>1}, "funny"=>{"stuff"=>1}, "stuff"=>{"]"=>1}}
   end
 
   test "sentence generation" do
     user = User.create(twitter_username: 'colinfike', markov_chain: {"["=>{"Hey"=>1}, "Hey"=>{"funny"=>1}, "funny"=>{"stuff"=>1}, "stuff"=>{"]"=>1}})
     generated_sentence = Markov.generate_sentence(user)
-    assert generated_sentence == "Hey funny stuff."
+    assert_equal generated_sentence, "Hey funny stuff."
   end
 end
