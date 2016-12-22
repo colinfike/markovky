@@ -52,6 +52,7 @@ class Markov < ApplicationRecord
   end
 
   def self.generate_sentence(user)
+    return false if user.markov_chain.blank?
     chosen_word = "["
     sentence = ""
     while chosen_word != "]"

@@ -23,4 +23,10 @@ class MarkovTest < ActiveSupport::TestCase
     generated_sentence = Markov.generate_sentence(user)
     assert_equal generated_sentence, "Hey funny stuff."
   end
+
+  test "sentence generation graceful failure" do
+    user = User.create(twitter_username: 'colinfike')
+    generated_sentence = Markov.generate_sentence(user)
+    assert_not generated_sentence
+  end
 end
