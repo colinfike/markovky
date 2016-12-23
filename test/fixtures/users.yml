@@ -4,8 +4,9 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-# column: value
+colin:
+  twitter_username: 'colinfike'
+
+colin_with_markov:
+  twitter_username: 'colinfike'
+  markov_chain: <%= {"["=>{"Hey"=>1}, "Hey"=>{"funny"=>1}, "funny"=>{"stuff"=>1}, "stuff"=>{"]"=>1}}.to_yaml.inspect %>
