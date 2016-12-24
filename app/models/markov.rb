@@ -8,21 +8,24 @@ class Markov < ApplicationRecord
     post_count = 0
 
     begin
-      response = RestClient.get("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=#{user.twitter_username}#{("&max_id=" + last_id.to_s) if last_id}", {"Authorization" => "Bearer #{TWITTER_BEARER_TOKEN}" })
-      parsed_response = JSON.parse(response)
-      posts = []
-      parsed_response.each do |tweet|
-        break if tweet['id'] < max_id
-        next if !tweet["retweeted_status"].nil?
-        last_id = tweet['id'] - 1
-        posts << tweet['text']
-      end
-      posts.each do |post|
-        temporary_markov_hash = self.process_post(temporary_markov_hash, post)
-      end
-      post_count = post_count + posts.count
-    end while posts != []
-
+      begin
+        response = RestClient.get("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=#{user.twitter_username}#{("&max_id=" + last_id.to_s) if last_id}", {"Authorization" => "Bearer #{TWITTER_BEARER_TOKEN}" })
+        parsed_response = JSON.parse(response)
+        posts = []
+        parsed_response.each do |tweet|
+          break if tweet['id'] < max_id
+          next if !tweet["retweeted_status"].nil?
+          last_id = tweet['id'] - 1
+          posts << tweet['text']
+        end
+        posts.each do |post|
+          temporary_markov_hash = self.process_post(temporary_markov_hash, post)
+        end
+        post_count = post_count + posts.count
+      end while posts != []
+    rescue => e
+      logger.info "Error during tweet fetch: #{e}"
+    end
     user.update(markov_chain: temporary_markov_hash)
   end
 

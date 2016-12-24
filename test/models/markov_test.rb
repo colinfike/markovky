@@ -29,4 +29,9 @@ class MarkovTest < ActiveSupport::TestCase
     generated_sentence = Markov.generate_sentence(user)
     assert_not generated_sentence
   end
+
+  test "test invalid twitter name error handling" do
+    user = users(:impossible_twitter_handle)
+    assert_nothing_raised{ Markov.create_twitter_markov_chain(user) }
+  end
 end

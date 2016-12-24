@@ -7,6 +7,9 @@
 colin:
   twitter_username: 'colinfike'
 
+impossible_twitter_handle:
+  twitter_username: <%= Digest::MD5.hexdigest(Time.now.to_s + (rand * 100).to_s) %>
+
 colin_with_markov:
   twitter_username: 'colinfike'
   markov_chain: <%= {"["=>{"Hey"=>1}, "Hey"=>{"funny"=>1}, "funny"=>{"stuff"=>1}, "stuff"=>{"]"=>1}}.to_yaml.inspect %>
