@@ -18,9 +18,7 @@ class Markov < ApplicationRecord
           last_id = tweet['id'] - 1
           posts << tweet['text']
         end
-        posts.each do |post|
-          temporary_markov_hash = self.process_post(temporary_markov_hash, post)
-        end
+        posts.each{|post| temporary_markov_hash = self.process_post(temporary_markov_hash, post)}
         post_count = post_count + posts.count
       end while posts != []
     rescue => e
