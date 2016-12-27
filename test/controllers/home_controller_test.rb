@@ -7,17 +7,16 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create user and return sentence" do
-    post '/markov/fetch_twitter_chain.json', params: {:twitter_username => 'colinfike'}, xhr: true
+    post fetch_twitter_chain_markov_index_url, params: {:twitter_username => 'colinfike'}, xhr: true, as: :json
     assert_equal JSON.parse(@response.body)['sentence'], 'Hey funny stuff.'
     assert_nil JSON.parse(@response.body)['error']
     assert_equal @response.content_type, 'application/json'
   end
 
   test "should return error on user creation failure" do
-    post '/markov/fetch_twitter_chain.json', params: {:twitter_username => ''}, xhr: true
+    post fetch_twitter_chain_markov_index_url, params: {:twitter_username => ''}, xhr: true, as: :json
     assert_nil JSON.parse(@response.body)['sentence']
     assert_equal JSON.parse(@response.body)['error'], 'Username Missing'
     assert_equal @response.content_type, 'application/json'
   end
-
 end
