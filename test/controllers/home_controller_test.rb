@@ -12,4 +12,12 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_nil JSON.parse(@response.body)['error']
     assert_equal @response.content_type, 'application/json'
   end
+
+  test "should return error on user creation failure" do
+    post '/markov/fetch_twitter_chain.json', params: {:twitter_username => ''}, xhr: true
+    assert_nil JSON.parse(@response.body)['sentence']
+    assert_equal JSON.parse(@response.body)['error'], 'Username Missing'
+    assert_equal @response.content_type, 'application/json'
+  end
+
 end
