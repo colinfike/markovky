@@ -7,6 +7,7 @@ class MarkovController < ApplicationController
     else
       error = "Username Missing"
     end
+    error = "Twitter user is private or invalid" if sentence == false
     respond_to do |format|
       format.html
       format.json { render json: {:sentence => sentence, :error => error} }

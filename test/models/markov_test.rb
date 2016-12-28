@@ -24,13 +24,13 @@ class MarkovTest < ActiveSupport::TestCase
     assert_equal generated_sentence, "Hey funny stuff."
   end
 
-  test "sentence generation graceful failure" do
+  test "sentence generation graceful failure with no dictionary" do
     user = users(:colin)
     generated_sentence = Markov.generate_sentence(user)
     assert_not generated_sentence
   end
 
-  test "test invalid twitter name error handling" do
+  test "dictionary generation invalid twitter name error handling" do
     user = users(:impossible_twitter_handle)
     assert_nothing_raised{ Markov.create_twitter_markov_chain(user) }
   end

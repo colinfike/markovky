@@ -19,4 +19,11 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
     assert_equal JSON.parse(@response.body)['error'], 'Username Missing'
     assert_equal @response.content_type, 'application/json'
   end
+
+  test "should return error on invalid twitter name failure" do
+    post fetch_twitter_chain_markov_index_url, params: {:twitter_username => users(:impossible_twitter_handle).twitter_username}, xhr: true, as: :json
+    assert_not JSON.parse(@response.body)['sentence']
+    assert_equal JSON.parse(@response.body)['error'], 'Twitter user is private or invalid'
+    assert_equal @response.content_type, 'application/json'
+  end
 end
