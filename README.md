@@ -1,6 +1,13 @@
-# README
+# Markovky
 
-ToDo:
+Markovky is a Rails applciation that can accept twitter usernames and generate a markov chain from a users past tweets as well as generating sentences.
+
+Currently has a depth of one for the markov chain and will generate a single sentence. 
+
+#Usage
+--In progress--
+
+#ToDo
 
 1. ~~Testing~~
 2. ~~Actual Styling~~
