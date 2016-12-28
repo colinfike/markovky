@@ -1,6 +1,7 @@
 class MarkovController < ApplicationController
   def fetch_twitter_chain
     if !params[:twitter_username].blank?
+      # TODO: Add check here for invalid username before creating the user
       user = User.find_or_create_by(twitter_username: params[:twitter_username])
       Markov.create_twitter_markov_chain(user)
       sentence = Markov.generate_sentence(user)
