@@ -1,7 +1,7 @@
 class Markov < ApplicationRecord
 
-  def self.create_twitter_markov_chain(user)
-    return if user.markov_chain != {}
+  def self.create_twitter_markov_chain(user, depth = 1)
+    # return if user.markov_chain != {}
     max_id = user.latest_tweet_seen.to_i
     last_id = nil
     temporary_markov_hash = {}
