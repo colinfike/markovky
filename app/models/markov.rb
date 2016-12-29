@@ -50,6 +50,7 @@ class Markov < ApplicationRecord
       end
     end
     return temporary_markov_hash
+    # test
   end
 
   def self.generate_sentence(user)
