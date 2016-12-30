@@ -15,7 +15,7 @@ class MarkovTest < ActiveSupport::TestCase
   test "post processing" do
     temp_markov = {}
     temp_markov = Markov.process_post(temp_markov, "@colinfike Hey!! \n funny stuff http://tester.com/whop")
-    assert_equal temp_markov, {"["=>{"Hey"=>1}, "Hey"=>{"funny"=>1}, "funny"=>{"stuff"=>1}, "stuff"=>{"]"=>1}}
+    assert_equal temp_markov, {"["=>{"Hey"=>{"funny"=>1}}, "Hey"=>{"funny"=>{"stuff"=>1}}, "funny"=>{"stuff"=>{"]"=>1}}}
   end
 
   test "sentence generation" do

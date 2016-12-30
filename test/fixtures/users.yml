@@ -12,4 +12,4 @@ impossible_twitter_handle:
 
 colin_with_markov:
   twitter_username: 'colinfike'
-  markov_chain: <%= {"["=>{"Hey"=>1}, "Hey"=>{"funny"=>1}, "funny"=>{"stuff"=>1}, "stuff"=>{"]"=>1}}.to_yaml.inspect %>
+  markov_chain: <%= {"["=>{"Hey"=>{"funny"=>1}}, "Hey"=>{"funny"=>{"stuff"=>1}}, "funny"=>{"stuff"=>{"]"=>1}}}.to_yaml.inspect %>

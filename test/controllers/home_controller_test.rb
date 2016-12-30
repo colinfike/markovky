@@ -16,7 +16,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
   test "should return error on user creation failure" do
     post fetch_twitter_chain_markov_index_url, params: {:twitter_username => ''}, xhr: true, as: :json
     assert_nil JSON.parse(@response.body)['sentence']
-    assert_equal JSON.parse(@response.body)['error'], 'Username Missing'
+    assert_equal JSON.parse(@response.body)['error'], 'Twitter user is private or invalid'
     assert_equal @response.content_type, 'application/json'
   end
 
