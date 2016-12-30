@@ -56,7 +56,9 @@ class Markov < ApplicationRecord
   end
 
   def self.generate_sentence(user)
+    logger.info '45'
     return false if user.markov_chain.blank?
+    logger.info '46'
     # First part of the sentence
     word_hash = {}
     user.markov_chain['['].each do |k,v|

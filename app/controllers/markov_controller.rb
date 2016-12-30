@@ -5,8 +5,7 @@ class MarkovController < ApplicationController
     error = nil
     user = User.find_or_initialize_by(twitter_username: params[:twitter_username])
     if user.new_record? && user.save
-        user = User.create(twitter_username: params[:twitter_username])
-        Markov.create_twitter_markov_chain(user) if user.markov_chain.blank?
+      Markov.create_twitter_markov_chain(user) if user.markov_chain.blank?
     end
     sentence = Markov.generate_sentence(user) if user.markov_chain != {}
     error = "Twitter user is private or invalid" if !user.errors.messages.empty? || sentence == false || user.markov_chain.blank?
