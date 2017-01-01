@@ -87,4 +87,9 @@ class Markov < ApplicationRecord
       return sentence.gsub(' ]','').capitalize + '.'
     end
   end
+
+  private
+    def clean_split_post(post)
+      cleaned_post = post.gsub(/http\S+/, '').split('.!?')
+    end
 end
