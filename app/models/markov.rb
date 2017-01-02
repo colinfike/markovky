@@ -18,7 +18,7 @@ class Markov < ApplicationRecord
           posts << tweet['text']
         end
         posts.each{|post| temporary_markov_hash = self.process_post(temporary_markov_hash, post)}
-        post_count = post_count + posts.count
+        post_count += posts.count
       end while posts != []
     rescue => e
       logger.info "Error during tweet fetch: #{e}"
@@ -33,11 +33,8 @@ class Markov < ApplicationRecord
     next_word = nil
     # Remove links then tear everything apart at terminal points
     # TODO: Pull this out into a method
-    post.gsub(/http\S+/, '').split('.!?').each_with_index do |sentence, index|
+    Markov.clean_split_post(post).each do |word_array|
       # Converts html entity names back to their actual ASCII values, removes returns and all non-alphanumeric values (and spaces)
-      # TODO: Pull this out into a method
-      # NOTE: Could downcase here potentially
-      word_array = CGI::unescapeHTML(sentence).gsub(/\n|[^A-Za-z@# ]|@\w+/,'').split(' ')
       word_count = word_array.count
 
       word_array.each_with_index do |word, current_word_index|
@@ -56,9 +53,7 @@ class Markov < ApplicationRecord
   end
 
   def self.generate_sentence(user)
-    logger.info '45'
     return false if user.markov_chain.blank?
-    logger.info '46'
     # First part of the sentence
     word_hash = {}
     user.markov_chain['['].each do |k,v|
@@ -74,7 +69,7 @@ class Markov < ApplicationRecord
     else
       sentence = ""
       sentence << chosen_word
-      # Maybe make this recursive
+      # TODO Maybe make this recursive
       split_sentence = sentence.split
       while split_sentence.last != ']'
         break if user.markov_chain[split_sentence[-2]].nil?
@@ -89,7 +84,11 @@ class Markov < ApplicationRecord
   end
 
   private
-    def clean_split_post(post)
-      cleaned_post = post.gsub(/http\S+/, '').split('.!?')
+    def self.clean_split_post(post)
+      cleaned_array = []
+      post.gsub(/http\S+/, '').downcase.split('.!?').each do |sentence|
+        cleaned_array << CGI::unescapeHTML(sentence).gsub(/\n|[^A-Za-z@# ]|@\w+/,'').split(' ')
+      end
+      cleaned_array
     end
 end

@@ -2,15 +2,16 @@
 
 Markovky is a Rails applciation that can accept twitter usernames and generate a markov chain from a users past tweets as well as generating sentences.
 
-Currently has a depth of one for the markov chain and will generate a single sentence.
+Currently has a depth of two for the markov chain and will generate a single sentence.
 
-#Usage
+# Usage
 --In progress--
 
-#ToDo
+# ToDo
 
 1. ~~Testing~~
 2. ~~Actual Styling~~
 3. ~~Variable (read: static depth of two) depth support for dictionary~~
-4. Creating multiple sentences (On the fence about this)
+6. Add update functionality on generations after the first
+4. Creating multiple sentences (On the fence about this, backburner for now.)
 5. Better parsing of tweets
