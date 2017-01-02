@@ -1,13 +1,14 @@
 class Markov < ApplicationRecord
 
-  def self.create_twitter_markov_chain(user, depth = 1)
+  def self.create_twitter_markov_chain(user)
     max_id = user.latest_tweet_seen.to_i
     last_id = nil
-    temporary_markov_hash = {}
+    temp_markov_hash = {}
     post_count = 0
 
     begin
       begin
+        # TODO: Flesh out the update functionality here to actually work
         response = RestClient.get("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=#{user.twitter_username}#{("&max_id=" + last_id.to_s) if last_id}", {"Authorization" => "Bearer #{TWITTER_BEARER_TOKEN}" })
         parsed_response = JSON.parse(response)
         posts = []
@@ -17,17 +18,17 @@ class Markov < ApplicationRecord
           last_id = tweet['id'] - 1
           posts << tweet['text']
         end
-        posts.each{|post| temporary_markov_hash = self.process_post(temporary_markov_hash, post)}
+        posts.each{|post| temp_markov_hash = self.process_post(temp_markov_hash, post)}
         post_count += posts.count
       end while posts != []
     rescue => e
       logger.info "Error during tweet fetch: #{e}"
     end
-    user.update(markov_chain: temporary_markov_hash)
+    user.update(markov_chain: temp_markov_hash)
   end
 
   # # Strips out garbage text and iterates over each word
-  def self.process_post temporary_markov_hash, post
+  def self.process_post temp_markov_hash, post
     past_word = '['
     current_word = '['
     next_word = nil
@@ -43,13 +44,13 @@ class Markov < ApplicationRecord
         next_word = current_word_index == word_count - 1 ? ']' : word_array[current_word_index + 1]
 
         # Increment the count of the current_word key's value in past_word hash
-        temporary_markov_hash[past_word] = {} if !temporary_markov_hash[past_word]
-        temporary_markov_hash[past_word][current_word] = {} if !temporary_markov_hash[past_word][current_word]
-        temporary_markov_hash[past_word][current_word][next_word] = temporary_markov_hash[past_word][current_word][next_word].to_i + 1
+        temp_markov_hash[past_word] = {} if !temp_markov_hash[past_word]
+        temp_markov_hash[past_word][current_word] = {} if !temp_markov_hash[past_word][current_word]
+        temp_markov_hash[past_word][current_word][next_word] = temp_markov_hash[past_word][current_word][next_word].to_i + 1
         break if next_word == ']'
       end
     end
-    return temporary_markov_hash
+    return temp_markov_hash
   end
 
   def self.generate_sentence(user)
@@ -75,8 +76,7 @@ class Markov < ApplicationRecord
         break if user.markov_chain[split_sentence[-2]].nil?
         randomizer_hash = user.markov_chain[split_sentence[-2]][split_sentence[-1]]
         randomizer = WeightedRandomizer.new(randomizer_hash)
-        chosen_word = randomizer.sample
-        sentence << " " + chosen_word
+        sentence << " " + randomizer.sample
         split_sentence = sentence.split
       end
       return sentence.gsub(' ]','').capitalize + '.'
