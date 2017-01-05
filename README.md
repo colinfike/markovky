@@ -12,6 +12,9 @@ Currently has a depth of two for the markov chain and will generate a single sen
 1. ~~Testing~~
 2. ~~Actual Styling~~
 3. ~~Variable (read: static depth of two) depth support for dictionary~~
-6. Add update functionality on generations after the first
-4. Creating multiple sentences (On the fence about this, backburner for now.)
-5. Better parsing of tweets
+4. ~~SSL~~
+5. Add update functionality on generations after the first
+6. Creating multiple sentences (On the fence about this, backburner for now.)
+7. Better parsing of tweets
+8. Detect number of tweets and use a depth of one or two accordingly
+9. Warn users if they have low tweet count

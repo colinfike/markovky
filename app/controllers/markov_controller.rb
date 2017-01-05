@@ -2,6 +2,8 @@ class MarkovController < ApplicationController
   def fetch_twitter_chain
     # Whole section with error handling is a mess but it prevents some unenecessary saves of the object
     # if I did it a bit cleaner. I cut down on code duplication but I don't think that may be a good thing in this case.
+    # TODO: Remove @ from username if it's the first character
+    # TODO: Add warning if you dont have enough tweets
     error = nil
     user = User.find_or_create_by(twitter_username: params[:twitter_username])
     Markov.create_twitter_markov_chain(user) if user.user_chain.nil?
