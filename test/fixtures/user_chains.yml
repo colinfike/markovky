@@ -4,11 +4,6 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-colin:
-  twitter_username: 'colinfike'
-
-impossible_twitter_handle:
-  twitter_username: <%= Digest::MD5.hexdigest(Time.now.to_s + (rand * 100).to_s) %>
-
-colin_with_markov:
-  twitter_username: 'colinfike'
+sample_user_chain:
+  markov_chain: <%= {"["=>{"hey"=>{"funny"=>1}}, "hey"=>{"funny"=>{"stuff"=>1}}, "funny"=>{"stuff"=>{"]"=>1}}}.to_yaml.inspect %>
+  user: colin_with_markov

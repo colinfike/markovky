@@ -3,7 +3,8 @@ class Markov < ApplicationRecord
   def self.create_twitter_markov_chain(user)
     max_id = user.latest_tweet_seen.to_i
     last_id = nil
-    temp_markov_hash = {}
+    markov_hash = {}
+    word_map = {}
     post_count = 0
 
     begin
@@ -18,17 +19,21 @@ class Markov < ApplicationRecord
           last_id = tweet['id'] - 1
           posts << tweet['text']
         end
-        posts.each{|post| temp_markov_hash = self.process_post(temp_markov_hash, post)}
+        posts.each do |post|
+          markov_hash, word_map = self.process_for_markov(markov_hash, word_map, post)
+          # word_map = self.process_for_word_map(word_map, post)
+        end
         post_count += posts.count
       end while posts != []
     rescue => e
       logger.info "Error during tweet fetch: #{e}"
     end
-    user.update(markov_chain: temp_markov_hash)
+    UserChain.create(user: user, markov_chain: markov_hash) if !markov_hash.blank?
+    UserWordMap.create(user: user, word_map: word_map) if !word_map.blank?
   end
 
   # # Strips out garbage text and iterates over each word
-  def self.process_post temp_markov_hash, post
+  def self.process_for_markov markov_hash, word_map, post
     past_word = '['
     current_word = '['
     next_word = nil
@@ -43,21 +48,24 @@ class Markov < ApplicationRecord
         current_word = word
         next_word = current_word_index == word_count - 1 ? ']' : word_array[current_word_index + 1]
 
+        # Keep track of word count
+        word_map[word.capitalize] = word_map[word.capitalize].to_i + 1
+
         # Increment the count of the current_word key's value in past_word hash
-        temp_markov_hash[past_word] = {} if !temp_markov_hash[past_word]
-        temp_markov_hash[past_word][current_word] = {} if !temp_markov_hash[past_word][current_word]
-        temp_markov_hash[past_word][current_word][next_word] = temp_markov_hash[past_word][current_word][next_word].to_i + 1
+        markov_hash[past_word] = {} if !markov_hash[past_word]
+        markov_hash[past_word][current_word] = {} if !markov_hash[past_word][current_word]
+        markov_hash[past_word][current_word][next_word] = markov_hash[past_word][current_word][next_word].to_i + 1
         break if next_word == ']'
       end
     end
-    return temp_markov_hash
+    return markov_hash, word_map
   end
 
   def self.generate_sentence(user)
-    return false if user.markov_chain.blank?
+    return false if user.user_chain.nil?
     # First part of the sentence
     word_hash = {}
-    user.markov_chain['['].each do |k,v|
+    user.user_chain.markov_chain['['].each do |k,v|
       v.each do |k2, v2|
         word_hash["#{k} #{k2}"] = v2
       end
@@ -73,14 +81,19 @@ class Markov < ApplicationRecord
       # TODO Maybe make this recursive
       split_sentence = sentence.split
       while split_sentence.last != ']'
-        break if user.markov_chain[split_sentence[-2]].nil?
-        randomizer_hash = user.markov_chain[split_sentence[-2]][split_sentence[-1]]
+        break if user.user_chain.markov_chain[split_sentence[-2]].nil?
+        randomizer_hash = user.user_chain.markov_chain[split_sentence[-2]][split_sentence[-1]]
         randomizer = WeightedRandomizer.new(randomizer_hash)
         sentence << " " + randomizer.sample
         split_sentence = sentence.split
       end
       return sentence.gsub(' ]','').capitalize + '.'
     end
+  end
+
+  def self.process_for_word_map word_map, post
+    post.split('.!? ').each{|word| word_map[word.capitalize] = word_map[word.capitalize].to_i + 1}
+    return word_map
   end
 
   private

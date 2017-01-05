@@ -8,7 +8,7 @@ class HomeControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user and return sentence" do
     post fetch_twitter_chain_markov_index_url, params: {:twitter_username => 'colinfike'}, xhr: true, as: :json
-    assert_equal JSON.parse(@response.body)['sentence'], 'Hey funny stuff.'
+    assert JSON.parse(@response.body)['sentence']
     assert_nil JSON.parse(@response.body)['error']
     assert_equal @response.content_type, 'application/json'
   end
