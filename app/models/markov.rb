@@ -21,7 +21,6 @@ class Markov < ApplicationRecord
         end
         posts.each do |post|
           markov_hash, word_map = self.process_for_markov(markov_hash, word_map, post)
-          # word_map = self.process_for_word_map(word_map, post)
         end
         post_count += posts.count
       end while posts != []
@@ -89,11 +88,6 @@ class Markov < ApplicationRecord
       end
       return sentence.gsub(' ]','').capitalize + '.'
     end
-  end
-
-  def self.process_for_word_map word_map, post
-    post.split('.!? ').each{|word| word_map[word.capitalize] = word_map[word.capitalize].to_i + 1}
-    return word_map
   end
 
   private
