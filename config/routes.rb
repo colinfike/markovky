@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :markov do
     collection do
       post 'fetch_twitter_chain'
+      get 'fetch_word_map'
     end
   end
 

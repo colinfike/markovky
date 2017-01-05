@@ -15,6 +15,14 @@ class MarkovController < ApplicationController
     end
   end
 
+  def fetch_word_map
+    # {text: "Lorem", weight: 13},
+    @json_payload = []
+    User.last.user_word_map.word_map.each do |k,v|
+      @json_payload << { "text" => k, "weight" => v }
+    end
+  end
+
   private
     def markov_params
       params.require(:user).permit(:twitter_username)
