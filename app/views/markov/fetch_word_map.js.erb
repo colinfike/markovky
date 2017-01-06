@@ -1,22 +1,3 @@
-console.log('test1');
 var json_test = JSON.parse("<%= j(raw @json_payload.to_json) %>");
-console.log('test2');
-// var test_words = []
-// $.each(json, function( index, value ) {
-//   test_words
-// });
-console.log('test3');
-console.log(json_test);
-// var words = [
-//   {text: "Lorem", weight: 13},
-//   {text: "Ipsum", weight: 10.5},
-//   {text: "Dolor", weight: 9.4},
-//   {text: "Sit", weight: 8},
-//   {text: "Amet", weight: 6.2},
-//   {text: "Consectetur", weight: 5},
-//   {text: "Adipiscing", weight: 5},
-//   /* ... */
-// ];
 
-// $('.twitter-form').jQCloud(words);
-$('#word-map-container').jQCloud(json_test);
+WordCloud(document.getElementById('word-map-container'), { list: json_test, shape: "circle", backgroundColor: "#FCFAFA" } );

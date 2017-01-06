@@ -2,7 +2,7 @@
   <div class='twitter-form'>
     <%= text_field_tag 'twitter_username', '', placeholder: 'Enter Twitter Username', class: 'form-control twitter-form__input' %>
     <%= submit_tag 'Generate Sentence', :class => 'form-control twitter-form__input', :id => 'twitter_submit' %>
-    <a data-remote='true' href='/markov/fetch_word_map'>Click</a>
+    <a data-remote='true' href='/markov/fetch_word_map?id=1'>Click</a>
   </div>
 
   <div class='container' id='success-container'>

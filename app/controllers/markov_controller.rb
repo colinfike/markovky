@@ -16,11 +16,12 @@ class MarkovController < ApplicationController
   end
 
   def fetch_word_map
-    # {text: "Lorem", weight: 13},
+    user = User.find_by(id: params[:id])
     @json_payload = []
-    User.last.user_word_map.word_map.each do |k,v|
-      @json_payload << { "text" => k, "weight" => v }
+    user.user_word_map.word_map.each do |k,v|
+      @json_payload << [k, v] if !COMMON_WORDS.include?(k.downcase)
     end
+    logger.info @json_payload
   end
 
   private
