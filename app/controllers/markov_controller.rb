@@ -16,12 +16,11 @@ class MarkovController < ApplicationController
   end
 
   def fetch_word_map
-    user = User.find_by(id: params[:id])
+    user = User.find_by(twitter_username: params[:twitter_username])
     @json_payload = []
     user.user_word_map.word_map.each do |k,v|
       @json_payload << [k, v] if !COMMON_WORDS.include?(k.downcase)
     end
-    logger.info @json_payload
   end
 
   private

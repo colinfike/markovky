@@ -4,6 +4,7 @@
 $ ->
   $('#twitter_submit').click ->
     payload = twitter_username: $('#twitter_username').val()
+    $('#word-map-link').data 'username', $('#twitter_username').val()
     $('.container').hide 0
     # Instantiate baffle
     b = baffle('#success-container')
@@ -27,5 +28,9 @@ $ ->
           data.sentence
         ).reveal 250
         $('#success-container').show 0
+        $('#word-map-link').show 0
       return
     return
+
+  $('#word-map-link').click ->
+    $.get '/markov/fetch_word_map.js', {twitter_username: $('#word-map-link').data 'username'}

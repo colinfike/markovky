@@ -1,4 +1,5 @@
 var json_test = JSON.parse("<%= j(raw @json_payload.to_json) %>");
+$('#word-map-container').show()
 
 WordCloud(document.getElementById('word-map-container'), {
   gridSize: 8,
