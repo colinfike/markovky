@@ -14,6 +14,7 @@ $ ->
     ).reveal 3000
     $('#success-container').show 0
 
+    # Maybe separate into it's own method
     $.post '/markov/fetch_twitter_chain.json', payload, (data) ->
       b.stop()
       if data.error
