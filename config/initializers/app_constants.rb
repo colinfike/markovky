@@ -9,4 +9,4 @@ COMMON_WORDS = ["the","of","and","a","to","in","is","you","that","it","he","was"
   "mean","old","any","same","tel","boy","follow","came","want","show","also","around","form","three","small","set","put","end","does","another","well",
   "large","must","big","eve","such","because","turn","here","why","ask","went","men","read","need","land","different","home","us","move","try","kind",
   "hand","picture","again","change","off","play","spell","air","away","animal","house","point","page","letter","answer","found","study","still",
-  "learn","should","world","so",'im','just','i']
+  "learn","should","world","so",'im','just','i','am']

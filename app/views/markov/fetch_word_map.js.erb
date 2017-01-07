@@ -1,3 +1,11 @@
 var json_test = JSON.parse("<%= j(raw @json_payload.to_json) %>");
 
-WordCloud(document.getElementById('word-map-container'), { list: json_test, shape: "circle", backgroundColor: "#FCFAFA" } );
+WordCloud(document.getElementById('word-map-container'), {
+  gridSize: 8,
+  weightFactor: 3,
+  list: json_test,
+  shape: "circle",
+  backgroundColor: "#FCFAFA",
+  minSize: 8,
+  drawOutOfBounds: true
+});
