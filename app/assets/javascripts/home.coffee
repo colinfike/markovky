@@ -30,6 +30,7 @@ $ ->
         ).reveal 250
         $('#success-container').show 0
         $('#word-map-link').show 0
+        $('#twitter_submit').val("Generate Another Sentence")
       return
     return
 
