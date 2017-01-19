@@ -3,4 +3,5 @@ rvm:
   ruby-2.3.1
 
 before_script:
-  - ./db/development_recreate.sh
+  - mysql -e 'create database db/markovky-test'
+  - RAILS_ENV=test bundle exec rake db:migrate --trace 
