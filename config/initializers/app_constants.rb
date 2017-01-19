@@ -31,4 +31,4 @@ COMMON_WORDS = ['the','of','and','to','a','in','for','is','on','that','by',
   'special','prices','website','index','being','women','much','sign','file',
   'link','open','today','technology','south','case','project','same','pages',
   'uk','version','section','own','found','sports','house','related','security',
-  'both']
+  'both', 'went', 'oh', 'k', 'doesnt', 'doing', 'looking', 'say']
